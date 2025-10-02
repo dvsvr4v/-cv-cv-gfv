@@ -1,0 +1,542 @@
+// source --> https://casaegeo.com/wp-content/plugins/woocommerce/assets/js/flexslider/jquery.flexslider.min.js?ver=2.7.2-wc.10.0.4 
+!function(e){var t=!0,a={swing:"cubic-bezier(.02, .01, .47, 1)",linear:"linear",easeInQuad:"cubic-bezier(0.11, 0, 0.5, 0)",easeOutQuad:"cubic-bezier(0.5, 1, 0.89, 1)",easeInOutQuad:"cubic-bezier(0.45, 0, 0.55, 1)",easeInCubic:"cubic-bezier(0.32, 0, 0.67, 0)",easeOutCubic:"cubic-bezier(0.33, 1, 0.68, 1)",easeInOutCubic:"cubic-bezier(0.65, 0, 0.35, 1)",easeInQuart:"cubic-bezier(0.5, 0, 0.75, 0)",easeOutQuart:"cubic-bezier(0.25, 1, 0.5, 1)",easeInOutQuart:"cubic-bezier(0.76, 0, 0.24, 1)",easeInQuint:"cubic-bezier(0.64, 0, 0.78, 0)",easeOutQuint:"cubic-bezier(0.22, 1, 0.36, 1)",easeInOutQuint:"cubic-bezier(0.83, 0, 0.17, 1)",easeInSine:"cubic-bezier(0.12, 0, 0.39, 0)",easeOutSine:"cubic-bezier(0.61, 1, 0.88, 1)",easeInOutSine:"cubic-bezier(0.37, 0, 0.63, 1)",easeInExpo:"cubic-bezier(0.7, 0, 0.84, 0)",easeOutExpo:"cubic-bezier(0.16, 1, 0.3, 1)",easeInOutExpo:"cubic-bezier(0.87, 0, 0.13, 1)",easeInCirc:"cubic-bezier(0.55, 0, 1, 0.45)",easeOutCirc:"cubic-bezier(0, 0.55, 0.45, 1)",easeInOutCirc:"cubic-bezier(0.85, 0, 0.15, 1)",easeInBack:"cubic-bezier(0.36, 0, 0.66, -0.56)",easeOutBack:"cubic-bezier(0.34, 1.56, 0.64, 1)",easeInOutBack:"cubic-bezier(0.68, -0.6, 0.32, 1.6)"};a.jswing=a.swing,e.flexslider=function(i,n){var s=e(i);"undefined"==typeof n.rtl&&"rtl"==e("html").attr("dir")&&(n.rtl=!0),s.vars=e.extend({},e.flexslider.defaults,n);var r,o=s.vars.namespace,l=("ontouchstart"in window||window.DocumentTouch&&document instanceof DocumentTouch)&&s.vars.touch,c="click touchend keyup flexslider-click",u="",d=a[s.vars.easing]||"ease",v="vertical"===s.vars.direction,p=s.vars.reverse,m=s.vars.itemWidth>0,f="fade"===s.vars.animation,h=""!==s.vars.asNavFor,g={};e.data(i,"flexslider",s),g={init:function(){s.animating=!1,s.currentSlide=parseInt(s.vars.startAt?s.vars.startAt:0,10),isNaN(s.currentSlide)&&(s.currentSlide=0),s.animatingTo=s.currentSlide,s.atEnd=0===s.currentSlide||s.currentSlide===s.last,s.containerSelector=s.vars.selector.substr(0,s.vars.selector.search(" ")),s.slides=e(s.vars.selector,s),s.container=e(s.containerSelector,s),s.count=s.slides.length,s.syncExists=e(s.vars.sync).length>0,"slide"===s.vars.animation&&(s.vars.animation="swing"),s.prop=v?"top":s.vars.rtl?"marginRight":"marginLeft",s.args={},s.manualPause=!1,s.stopped=!1,s.started=!1,s.startTimeout=null,s.transforms=s.transitions=!s.vars.video&&!f&&s.vars.useCSS,s.transforms&&(s.prop="transform"),s.isFirefox=navigator.userAgent.toLowerCase().indexOf("firefox")>-1,s.ensureAnimationEnd="",""!==s.vars.controlsContainer&&(s.controlsContainer=e(s.vars.controlsContainer).length>0&&e(s.vars.controlsContainer)),""!==s.vars.manualControls&&(s.manualControls=e(s.vars.manualControls).length>0&&e(s.vars.manualControls)),""!==s.vars.customDirectionNav&&(s.customDirectionNav=2===e(s.vars.customDirectionNav).length&&e(s.vars.customDirectionNav)),s.vars.randomize&&(s.slides.sort(function(){return Math.round(Math.random())-.5}),s.container.empty().append(s.slides)),s.doMath(),s.setup("init"),s.vars.controlNav&&g.controlNav.setup(),s.vars.directionNav&&g.directionNav.setup(),s.vars.keyboard&&(1===e(s.containerSelector).length||s.vars.multipleKeyboard)&&e(document).on("keyup",function(e){var t=e.keyCode;if(!s.animating&&(39===t||37===t)){var a=s.vars.rtl?37===t?s.getTarget("next"):39===t&&s.getTarget("prev"):39===t?s.getTarget("next"):37===t&&s.getTarget("prev");s.flexAnimate(a,s.vars.pauseOnAction)}}),s.vars.mousewheel&&s.on("mousewheel",function(e,t,a,i){e.preventDefault();var n=t<0?s.getTarget("next"):s.getTarget("prev");s.flexAnimate(n,s.vars.pauseOnAction)}),s.vars.pausePlay&&g.pausePlay.setup(),s.vars.slideshow&&s.vars.pauseInvisible&&g.pauseInvisible(),s.vars.slideshow&&(s.vars.pauseOnHover&&s.on("mouseenter",function(){s.manualPlay||s.manualPause||s.pause()}).on("mouseleave",function(){s.manualPause||s.manualPlay||s.stopped||s.play()}),s.vars.pauseInvisible&&"visible"!==document.visibilityState||(s.vars.initDelay>0?s.startTimeout=setTimeout(s.play,s.vars.initDelay):s.play())),h&&g.asNav.setup(),l&&s.vars.touch&&g.touch(),(!f||f&&s.vars.smoothHeight)&&e(window).on("resize orientationchange focus",g.resize),s.find("img").attr("draggable","false"),setTimeout(function(){s.vars.start(s)},200)},asNav:{setup:function(){s.asNav=!0,s.animatingTo=Math.floor(s.currentSlide/s.move),s.currentItem=s.currentSlide,s.slides.removeClass(o+"active-slide").eq(s.currentItem).addClass(o+"active-slide"),s.slides.on(c,function(t){t.preventDefault();var a=e(this),i=a.index();(s.vars.rtl?-1*(a.offset().right-e(s).scrollLeft()):a.offset().left-e(s).scrollLeft())<=0&&a.hasClass(o+"active-slide")?s.flexAnimate(s.getTarget("prev"),!0):e(s.vars.asNavFor).data("flexslider").animating||a.hasClass(o+"active-slide")||(s.direction=s.currentItem<i?"next":"prev",s.flexAnimate(i,s.vars.pauseOnAction,!1,!0,!0))})}},controlNav:{setup:function(){s.manualControls?g.controlNav.setupManual():g.controlNav.setupPaging()},setupPaging:function(){var t,a,i="thumbnails"===s.vars.controlNav?"control-thumbs":"control-paging",n=1;if(s.controlNavScaffold=e('<ol class="'+o+"control-nav "+o+i+'"></ol>'),s.pagingCount>1)for(var r=0;r<s.pagingCount;r++){if(a=s.slides.eq(r),undefined===a.attr("data-thumb-alt")&&a.attr("data-thumb-alt",""),t=e("<a></a>").attr("href","#").text(n),"thumbnails"===s.vars.controlNav&&(t=e("<img/>",{onload:"this.width = this.naturalWidth; this.height = this.naturalHeight",src:a.attr("data-thumb"),srcset:a.attr("data-thumb-srcset"),sizes:a.attr("data-thumb-sizes"),alt:a.attr("alt")})),""!==a.attr("data-thumb-alt")&&t.attr("alt",a.attr("data-thumb-alt")),"thumbnails"===s.vars.controlNav&&!0===s.vars.thumbCaptions){var l=a.attr("data-thumbcaption");if(""!==l&&undefined!==l){var d=e("<span></span>").addClass(o+"caption").text(l);t.append(d)}}var v=e("<li>");t.appendTo(v),v.append("</li>"),s.controlNavScaffold.append(v),n++}s.controlsContainer?e(s.controlsContainer).append(s.controlNavScaffold):s.append(s.controlNavScaffold),g.controlNav.set(),g.controlNav.active(),s.controlNavScaffold.on(c,"a, img",function(t){if(t.preventDefault(),""===u||u===t.type||"flexslider-click"===t.type){var a=e(this),i=s.controlNav.index(a);a.hasClass(o+"active")||(s.direction=i>s.currentSlide?"next":"prev",s.flexAnimate(i,s.vars.pauseOnAction))}""===u&&"flexslider-click"!==t.type&&(u=t.type),g.setToClearWatchedEvent()})},setupManual:function(){s.controlNav=s.manualControls,g.controlNav.active(),s.controlNav.on(c,function(t){if(t.preventDefault(),""===u||u===t.type||"flexslider-click"===t.type){var a=e(this),i=s.controlNav.index(a);a.hasClass(o+"active")||(i>s.currentSlide?s.direction="next":s.direction="prev",s.flexAnimate(i,s.vars.pauseOnAction))}""===u&&"flexslider-click"!==t.type&&(u=t.type),g.setToClearWatchedEvent()})},set:function(){var t="thumbnails"===s.vars.controlNav?"img":"a";s.controlNav=e("."+o+"control-nav li "+t,s.controlsContainer?s.controlsContainer:s)},active:function(){s.controlNav.removeClass(o+"active").eq(s.animatingTo).addClass(o+"active")},update:function(t,a){s.pagingCount>1&&"add"===t?s.controlNavScaffold.append(e('<li><a href="#">'+s.count+"</a></li>")):1===s.pagingCount?s.controlNavScaffold.find("li").remove():s.controlNav.eq(a).closest("li").remove(),g.controlNav.set(),s.pagingCount>1&&s.pagingCount!==s.controlNav.length?s.update(a,t):g.controlNav.active()}},directionNav:{setup:function(){var t=e('<ul class="'+o+'direction-nav"><li class="'+o+'nav-prev"><a class="'+o+'prev" href="#">'+s.vars.prevText+'</a></li><li class="'+o+'nav-next"><a class="'+o+'next" href="#">'+s.vars.nextText+"</a></li></ul>");s.customDirectionNav?s.directionNav=s.customDirectionNav:s.controlsContainer?(e(s.controlsContainer).append(t),s.directionNav=e("."+o+"direction-nav li a",s.controlsContainer)):(s.append(t),s.directionNav=e("."+o+"direction-nav li a",s)),g.directionNav.update(),s.directionNav.on(c,function(t){var a;t.preventDefault(),""!==u&&u!==t.type&&"flexslider-click"!==t.type||(a=e(this).hasClass(o+"next")?s.getTarget("next"):s.getTarget("prev"),s.flexAnimate(a,s.vars.pauseOnAction)),""===u&&"flexslider-click"!==t.type&&(u=t.type),g.setToClearWatchedEvent()})},update:function(){var e=o+"disabled";1===s.pagingCount?s.directionNav.addClass(e).attr("tabindex","-1"):s.vars.animationLoop?s.directionNav.removeClass(e).prop("tabindex","-1"):0===s.animatingTo?s.directionNav.removeClass(e).filter("."+o+"prev").addClass(e).attr("tabindex","-1"):s.animatingTo===s.last?s.directionNav.removeClass(e).filter("."+o+"next").addClass(e).attr("tabindex","-1"):s.directionNav.removeClass(e).prop("tabindex","-1")}},pausePlay:{setup:function(){var t=e('<div class="'+o+'pauseplay"><a href="#"></a></div>');s.controlsContainer?(s.controlsContainer.append(t),s.pausePlay=e("."+o+"pauseplay a",s.controlsContainer)):(s.append(t),s.pausePlay=e("."+o+"pauseplay a",s)),g.pausePlay.update(s.vars.slideshow?o+"pause":o+"play"),s.pausePlay.on(c,function(t){t.preventDefault(),""!==u&&u!==t.type&&"flexslider-click"!==t.type||(e(this).hasClass(o+"pause")?(s.manualPause=!0,s.manualPlay=!1,s.pause()):(s.manualPause=!1,s.manualPlay=!0,s.play())),""===u&&"flexslider-click"!==t.type&&(u=t.type),g.setToClearWatchedEvent()})},update:function(e){"play"===e?s.pausePlay.removeClass(o+"pause").addClass(o+"play").html(s.vars.playText):s.pausePlay.removeClass(o+"play").addClass(o+"pause").html(s.vars.pauseText)}},touch:function(){var e,t,a,n,r,o,l,c,u,d=!1,h=0,g=0;l=function(r){s.animating?r.preventDefault():1===r.touches.length&&(s.pause(),n=v?s.h:s.w,o=Number(new Date),h=r.touches[0].pageX,g=r.touches[0].pageY,a=m&&p&&s.animatingTo===s.last?0:m&&p?s.limit-(s.itemW+s.vars.itemMargin)*s.move*s.animatingTo:m&&s.currentSlide===s.last?s.limit:m?(s.itemW+s.vars.itemMargin)*s.move*s.currentSlide:p?(s.last-s.currentSlide+s.cloneOffset)*n:(s.currentSlide+s.cloneOffset)*n,e=v?g:h,t=v?h:g,i.addEventListener("touchmove",c,!1),i.addEventListener("touchend",u,!1))},c=function(i){h=i.touches[0].pageX,g=i.touches[0].pageY,r=v?e-g:(s.vars.rtl?-1:1)*(e-h);(!(d=v?Math.abs(r)<Math.abs(h-t):Math.abs(r)<Math.abs(g-t))||Number(new Date)-o>500)&&(i.preventDefault(),f||(s.vars.animationLoop||(r/=0===s.currentSlide&&r<0||s.currentSlide===s.last&&r>0?Math.abs(r)/n+2:1),s.setProps(a+r,"setTouch")))},u=function(l){if(i.removeEventListener("touchmove",c,!1),s.animatingTo===s.currentSlide&&!d&&null!==r){var v=p?-r:r,m=v>0?s.getTarget("next"):s.getTarget("prev");s.canAdvance(m)&&(Number(new Date)-o<550&&Math.abs(v)>50||Math.abs(v)>n/2)?s.flexAnimate(m,s.vars.pauseOnAction):f||s.flexAnimate(s.currentSlide,s.vars.pauseOnAction,!0)}i.removeEventListener("touchend",u,!1),e=null,t=null,r=null,a=null},i.addEventListener("touchstart",l,!1)},resize:function(){!s.animating&&s.is(":visible")&&(m||s.doMath(),f?g.smoothHeight():m?(s.slides.width(s.computedW),s.update(s.pagingCount),s.setProps()):v?(s.viewport.height(s.h),s.setProps(s.h,"setTotal")):(s.setProps(s.computedW,"setTotal"),s.newSlides.width(s.computedW),s.vars.smoothHeight&&g.smoothHeight()))},smoothHeight:function(e){v&&!f||(f?s:s.viewport).css({height:s.slides.eq(s.animatingTo).innerHeight(),transition:e?"height "+e+"ms":"none"})},sync:function(t){var a=e(s.vars.sync).data("flexslider"),i=s.animatingTo;switch(t){case"animate":a.flexAnimate(i,s.vars.pauseOnAction,!1,!0);break;case"play":a.playing||a.asNav||a.play();break;case"pause":a.pause()}},uniqueID:function(t){return t.filter("[id]").add(t.find("[id]")).each(function(){var t=e(this);t.attr("id",t.attr("id")+"_clone")}),t},pauseInvisible:function(){document.addEventListener("visibilitychange",function(){"hidden"===document.visibilityState?s.startTimeout?clearTimeout(s.startTimeout):s.pause():s.started?s.play():s.vars.initDelay>0?setTimeout(s.play,s.vars.initDelay):s.play()})},setToClearWatchedEvent:function(){clearTimeout(r),r=setTimeout(function(){u=""},3e3)}},s.flexAnimate=function(t,a,i,n,r){if(s.vars.animationLoop||t===s.currentSlide||(s.direction=t>s.currentSlide?"next":"prev"),h&&1===s.pagingCount&&(s.direction=s.currentItem<t?"next":"prev"),!s.animating&&(s.canAdvance(t,r)||i)&&s.is(":visible")){if(h&&n){var c=e(s.vars.asNavFor).data("flexslider");if(s.atEnd=0===t||t===s.count-1,c.flexAnimate(t,!0,!1,!0,r),s.direction=s.currentItem<t?"next":"prev",c.direction=s.direction,Math.ceil((t+1)/s.visible)-1===s.currentSlide||0===t)return s.currentItem=t,s.slides.removeClass(o+"active-slide").eq(t).addClass(o+"active-slide"),!1;s.currentItem=t,s.slides.removeClass(o+"active-slide").eq(t).addClass(o+"active-slide"),t=Math.floor(t/s.visible)}if(s.animating=!0,s.animatingTo=t,a&&s.pause(),s.vars.before(s),s.syncExists&&!r&&g.sync("animate"),s.vars.controlNav&&g.controlNav.active(),m||s.slides.removeClass(o+"active-slide").eq(t).addClass(o+"active-slide"),s.atEnd=0===t||t===s.last,s.vars.directionNav&&g.directionNav.update(),t===s.last&&(s.vars.end(s),s.vars.animationLoop||s.pause()),f)l||(s.slides.eq(s.currentSlide).off("transitionend"),s.slides.eq(t).off("transitionend").on("transitionend",s.wrapup)),s.slides.eq(s.currentSlide).css({opacity:0,zIndex:1}),s.slides.eq(t).css({opacity:1,zIndex:2}),l&&s.wrapup(y);else{var u,d,b,y=v?s.slides.filter(":first").height():s.computedW;m?(u=s.vars.itemMargin,d=(b=(s.itemW+u)*s.move*s.animatingTo)>s.limit&&1!==s.visible?s.limit:b):d=0===s.currentSlide&&t===s.count-1&&s.vars.animationLoop&&"next"!==s.direction?p?(s.count+s.cloneOffset)*y:0:s.currentSlide===s.last&&0===t&&s.vars.animationLoop&&"prev"!==s.direction?p?0:(s.count+1)*y:p?(s.count-1-t+s.cloneOffset)*y:(t+s.cloneOffset)*y,s.setProps(d,"",s.vars.animationSpeed),s.vars.animationLoop&&s.atEnd||(s.animating=!1,s.currentSlide=s.animatingTo),s.container.off("transitionend"),s.container.on("transitionend",function(){clearTimeout(s.ensureAnimationEnd),s.wrapup(y)}),clearTimeout(s.ensureAnimationEnd),s.ensureAnimationEnd=setTimeout(function(){s.wrapup(y)},s.vars.animationSpeed+100)}s.vars.smoothHeight&&g.smoothHeight(s.vars.animationSpeed)}},s.wrapup=function(e){f||m||(0===s.currentSlide&&s.animatingTo===s.last&&s.vars.animationLoop?s.setProps(e,"jumpEnd"):s.currentSlide===s.last&&0===s.animatingTo&&s.vars.animationLoop&&s.setProps(e,"jumpStart")),s.animating=!1,s.currentSlide=s.animatingTo,s.vars.after(s)},s.animateSlides=function(){!s.animating&&t&&s.flexAnimate(s.getTarget("next"))},s.pause=function(){clearInterval(s.animatedSlides),s.animatedSlides=null,s.playing=!1,s.vars.pausePlay&&g.pausePlay.update("play"),s.syncExists&&g.sync("pause")},s.play=function(){s.playing&&clearInterval(s.animatedSlides),s.animatedSlides=s.animatedSlides||setInterval(s.animateSlides,s.vars.slideshowSpeed),s.started=s.playing=!0,s.vars.pausePlay&&g.pausePlay.update("pause"),s.syncExists&&g.sync("play")},s.stop=function(){s.pause(),s.stopped=!0},s.canAdvance=function(e,t){var a=h?s.pagingCount-1:s.last;return!!t||(!(!h||s.currentItem!==s.count-1||0!==e||"prev"!==s.direction)||(!h||0!==s.currentItem||e!==s.pagingCount-1||"next"===s.direction)&&(!(e===s.currentSlide&&!h)&&(!!s.vars.animationLoop||(!s.atEnd||0!==s.currentSlide||e!==a||"next"===s.direction)&&(!s.atEnd||s.currentSlide!==a||0!==e||"next"!==s.direction))))},s.getTarget=function(e){return s.direction=e,"next"===e?s.currentSlide===s.last?0:s.currentSlide+1:0===s.currentSlide?s.last:s.currentSlide-1},s.setProps=function(e,t,a){var i,n=(i=e||(s.itemW+s.vars.itemMargin)*s.move*s.animatingTo,function(){if(m)return"setTouch"===t?e:p&&s.animatingTo===s.last?0:p?s.limit-(s.itemW+s.vars.itemMargin)*s.move*s.animatingTo:s.animatingTo===s.last?s.limit:i;switch(t){case"setTotal":return p?(s.count-1-s.currentSlide+s.cloneOffset)*e:(s.currentSlide+s.cloneOffset)*e;case"setTouch":return e;case"jumpEnd":return p?e:s.count*e;case"jumpStart":return p?s.count*e:e;default:return e}}()*(s.vars.rtl?1:-1)+"px");a=a!==undefined?a/1e3+"s":"0s",s.container.css("transition-duration",a),s.transforms?n=v?"translate3d(0,"+n+",0)":"translate3d("+parseInt(n)+"px,0,0)":s.container.css("transition-timing-function",d),s.args[s.prop]=n,s.container.css(s.args)},s.setup=function(t){var a,i;f?(s.vars.rtl?s.slides.css({width:"100%",float:"right",marginLeft:"-100%",position:"relative"}):s.slides.css({width:"100%",float:"left",marginRight:"-100%",position:"relative"}),"init"===t&&(l?s.slides.css({opacity:0,display:"block",transition:"opacity "+s.vars.animationSpeed/1e3+"s ease",zIndex:1}).eq(s.currentSlide).css({opacity:1,zIndex:2}):(0==s.vars.fadeFirstSlide?(s.slides.css({opacity:0,display:"block",zIndex:1}).eq(s.currentSlide).css({opacity:1,zIndex:2}),s.slides.outerWidth()):(s.slides.css({opacity:0,display:"block",zIndex:1}).outerWidth(),s.slides.eq(s.currentSlide).css({opacity:1,zIndex:2})),s.slides.css({transition:"opacity "+s.vars.animationSpeed/1e3+"s "+d}))),s.vars.smoothHeight&&g.smoothHeight()):("init"===t&&(s.viewport=e('<div class="'+o+'viewport"></div>').css({overflow:"hidden",position:"relative"}).appendTo(s).append(s.container),s.cloneCount=0,s.cloneOffset=0,p&&(i=e.makeArray(s.slides).reverse(),s.slides=e(i),s.container.empty().append(s.slides))),s.vars.animationLoop&&!m&&(s.cloneCount=2,s.cloneOffset=1,"init"!==t&&s.container.find(".clone").remove(),s.container.append(g.uniqueID(s.slides.first().clone().addClass("clone")).attr("aria-hidden","true")).prepend(g.uniqueID(s.slides.last().clone().addClass("clone")).attr("aria-hidden","true"))),s.newSlides=e(s.vars.selector,s),a=p?s.count-1-s.currentSlide+s.cloneOffset:s.currentSlide+s.cloneOffset,v&&!m?(s.container.height(200*(s.count+s.cloneCount)+"%").css("position","absolute").width("100%"),setTimeout(function(){s.newSlides.css({display:"block"}),s.doMath(),s.viewport.height(s.h),s.setProps(a*s.h,"init")},"init"===t?100:0)):(s.container.width(200*(s.count+s.cloneCount)+"%"),s.setProps(a*s.computedW,"init"),setTimeout(function(){s.doMath(),s.vars.rtl?s.newSlides.css({width:s.computedW,marginRight:s.computedM,float:"right",display:"block"}):s.newSlides.css({width:s.computedW,marginRight:s.computedM,float:"left",display:"block"}),s.vars.smoothHeight&&g.smoothHeight()},"init"===t?100:0)));m||s.slides.removeClass(o+"active-slide").eq(s.currentSlide).addClass(o+"active-slide"),s.vars.init(s)},s.doMath=function(){var e=s.slides.first(),t=s.vars.itemMargin,a=s.vars.minItems,i=s.vars.maxItems;s.w=s.viewport===undefined?s.width():s.viewport.width(),s.isFirefox&&(s.w=s.width()),s.h=e.height(),s.boxPadding=e.outerWidth()-e.width(),m?(s.itemT=s.vars.itemWidth+t,s.itemM=t,s.minW=a?a*s.itemT:s.w,s.maxW=i?i*s.itemT-t:s.w,s.itemW=s.minW>s.w?(s.w-t*(a-1))/a:s.maxW<s.w?(s.w-t*(i-1))/i:s.vars.itemWidth>s.w?s.w:s.vars.itemWidth,s.visible=Math.floor(s.w/s.itemW),s.move=s.vars.move>0&&s.vars.move<s.visible?s.vars.move:s.visible,s.pagingCount=Math.ceil((s.count-s.visible)/s.move+1),s.last=s.pagingCount-1,s.limit=1===s.pagingCount?0:s.vars.itemWidth>s.w?s.itemW*(s.count-1)+t*(s.count-1):(s.itemW+t)*s.count-s.w-t):(s.itemW=s.w,s.itemM=t,s.pagingCount=s.count,s.last=s.count-1),s.computedW=s.itemW-s.boxPadding,s.computedM=s.itemM},s.update=function(e,t){s.doMath(),m||(e<s.currentSlide?s.currentSlide+=1:e<=s.currentSlide&&0!==e&&(s.currentSlide-=1),s.animatingTo=s.currentSlide),s.vars.controlNav&&!s.manualControls&&("add"===t&&!m||s.pagingCount>s.controlNav.length?g.controlNav.update("add"):("remove"===t&&!m||s.pagingCount<s.controlNav.length)&&(m&&s.currentSlide>s.last&&(s.currentSlide-=1,s.animatingTo-=1),g.controlNav.update("remove",s.last))),s.vars.directionNav&&g.directionNav.update()},s.addSlide=function(t,a){var i=e(t);s.count+=1,s.last=s.count-1,v&&p?a!==undefined?s.slides.eq(s.count-a).after(i):s.container.prepend(i):a!==undefined?s.slides.eq(a).before(i):s.container.append(i),s.update(a,"add"),s.slides=e(s.vars.selector+":not(.clone)",s),s.setup(),s.vars.added(s)},s.removeSlide=function(t){var a=isNaN(t)?s.slides.index(e(t)):t;s.count-=1,s.last=s.count-1,isNaN(t)?e(t,s.slides).remove():v&&p?s.slides.eq(s.last).remove():s.slides.eq(t).remove(),s.doMath(),s.update(a,"remove"),s.slides=e(s.vars.selector+":not(.clone)",s),s.setup(),s.vars.removed(s)},g.init()},e(window).on("blur",function(e){t=!1}).on("focus",function(e){t=!0}),e.flexslider.defaults={namespace:"flex-",selector:".slides > li",animation:"fade",easing:"swing",direction:"horizontal",reverse:!1,animationLoop:!0,smoothHeight:!1,startAt:0,slideshow:!0,slideshowSpeed:7e3,animationSpeed:600,initDelay:0,randomize:!1,fadeFirstSlide:!0,thumbCaptions:!1,pauseOnAction:!0,pauseOnHover:!1,pauseInvisible:!0,useCSS:!0,touch:!0,video:!1,controlNav:!0,directionNav:!0,prevText:"Previous",nextText:"Next",keyboard:!0,multipleKeyboard:!1,mousewheel:!1,pausePlay:!1,pauseText:"Pause",playText:"Play",controlsContainer:"",manualControls:"",customDirectionNav:"",sync:"",asNavFor:"",itemWidth:0,itemMargin:0,minItems:1,maxItems:0,move:0,allowOneSlide:!0,isFirefox:!1,start:function(){},before:function(){},after:function(){},end:function(){},added:function(){},removed:function(){},init:function(){},rtl:!1},e.fn.flexslider=function(t){if(t===undefined&&(t={}),"object"==typeof t)return this.each(function(){var a=e(this),i=t.selector?t.selector:".slides > li",n=a.find(i);if(1===n.length&&!1===t.allowOneSlide||0===n.length){n.length&&n[0].animate([{opacity:0},{opacity:1}],400),t.start&&t.start(a)}else a.data("flexslider")===undefined&&new e.flexslider(this,t)});var a=e(this).data("flexslider");switch(t){case"play":a.play();break;case"pause":a.pause();break;case"stop":a.stop();break;case"next":a.flexAnimate(a.getTarget("next"),!0);break;case"prev":case"previous":a.flexAnimate(a.getTarget("prev"),!0);break;default:"number"==typeof t&&a.flexAnimate(t,!0)}}}(jQuery);
+// source --> https://casaegeo.com/wp-content/plugins/pixelyoursite-pro/dist/scripts/js.cookie-2.1.3.min.js?ver=2.1.3 
+!function(e){var n=!1;if("function"==typeof define&&define.amd&&(define(e),n=!0),"object"==typeof exports&&(module.exports=e(),n=!0),!n){var o=window.Cookies,t=window.Cookies=e();t.noConflict=function(){return window.Cookies=o,t}}}(function(){function e(){for(var e=0,n={};e<arguments.length;e++){var o=arguments[e];for(var t in o)n[t]=o[t]}return n}function n(o){function t(n,r,i){var c;if("undefined"!=typeof document){if(arguments.length>1){if(i=e({path:"/"},t.defaults,i),"number"==typeof i.expires){var a=new Date;a.setMilliseconds(a.getMilliseconds()+864e5*i.expires),i.expires=a}try{c=JSON.stringify(r),/^[\{\[]/.test(c)&&(r=c)}catch(e){}return r=o.write?o.write(r,n):encodeURIComponent(String(r)).replace(/%(23|24|26|2B|3A|3C|3E|3D|2F|3F|40|5B|5D|5E|60|7B|7D|7C)/g,decodeURIComponent),n=encodeURIComponent(String(n)),n=n.replace(/%(23|24|26|2B|5E|60|7C)/g,decodeURIComponent),n=n.replace(/[\(\)]/g,escape),document.cookie=[n,"=",r,i.expires?"; expires="+i.expires.toUTCString():"",i.path?"; path="+i.path:"",i.domain?"; domain="+i.domain:"",i.secure?"; secure":""].join("")}n||(c={});for(var p=document.cookie?document.cookie.split("; "):[],s=/(%[0-9A-Z]{2})+/g,d=0;d<p.length;d++){var f=p[d].split("="),u=f.slice(1).join("=");'"'===u.charAt(0)&&(u=u.slice(1,-1));try{var l=f[0].replace(s,decodeURIComponent);if(u=o.read?o.read(u,l):o(u,l)||u.replace(s,decodeURIComponent),this.json)try{u=JSON.parse(u)}catch(e){}if(n===l){c=u;break}n||(c[l]=u)}catch(e){}}return c}}return t.set=t,t.get=function(e){return t.call(t,e)},t.getJSON=function(){return t.apply({json:!0},[].slice.call(arguments))},t.defaults={},t.remove=function(n,o){t(n,"",e(o,{expires:-1}))},t.withConverter=n,t}return n(function(){})});
+// source --> https://casaegeo.com/wp-content/plugins/pixelyoursite-pro/dist/scripts/jquery.bind-first-0.2.3.min.js?ver=6.8.2 
+/*
+ * jQuery.bind-first library v0.2.3
+ * Copyright (c) 2013 Vladimir Zhuravlev
+ *
+ * Released under MIT License
+ * @license
+ *
+ * Date: Thu Feb  6 10:13:59 ICT 2014
+ **/
+(function(t){function e(e){return u?e.data("events"):t._data(e[0]).events}function n(t,n,r){var i=e(t),a=i[n];if(!u){var s=r?a.splice(a.delegateCount-1,1)[0]:a.pop();return a.splice(r?0:a.delegateCount||0,0,s),void 0}r?i.live.unshift(i.live.pop()):a.unshift(a.pop())}function r(e,r,i){var a=r.split(/\s+/);e.each(function(){for(var e=0;a.length>e;++e){var r=a[e].trim().match(/[^\.]+/i)[0];n(t(this),r,i)}})}function i(e){t.fn[e+"First"]=function(){var n=t.makeArray(arguments),i=n.shift();return i&&(t.fn[e].apply(this,arguments),r(this,i)),this}}var a=t.fn.jquery.split("."),s=parseInt(a[0]),f=parseInt(a[1]),u=1>s||1==s&&7>f;i("bind"),i("one"),t.fn.delegateFirst=function(){var e=t.makeArray(arguments),n=e[1];return n&&(e.splice(0,2),t.fn.delegate.apply(this,arguments),r(this,n,!0)),this},t.fn.liveFirst=function(){var e=t.makeArray(arguments);return e.unshift(this.selector),t.fn.delegateFirst.apply(t(document),e),this},u||(t.fn.onFirst=function(e,n){var i=t(this),a="string"==typeof n;if(t.fn.on.apply(i,arguments),"object"==typeof e)for(type in e)e.hasOwnProperty(type)&&r(i,type,a);else"string"==typeof e&&r(i,e,a);return i})})(jQuery);
+// source --> https://casaegeo.com/wp-content/plugins/pixelyoursite-pro/dist/scripts/sha256.js?ver=0.11.0 
+/**
+ * [js-sha256]{@link https://github.com/emn178/js-sha256}
+ *
+ * @version 0.11.0
+ * @author Chen, Yi-Cyuan [emn178@gmail.com]
+ * @copyright Chen, Yi-Cyuan 2014-2024
+ * @license MIT
+ */
+/*jslint bitwise: true */
+(function () {
+    'use strict';
+
+    var ERROR = 'input is invalid type';
+    var WINDOW = typeof window === 'object';
+    var root = WINDOW ? window : {};
+    if (root.JS_SHA256_NO_WINDOW) {
+        WINDOW = false;
+    }
+    var WEB_WORKER = !WINDOW && typeof self === 'object';
+    var NODE_JS = !root.JS_SHA256_NO_NODE_JS && typeof process === 'object' && process.versions && process.versions.node;
+    if (NODE_JS) {
+        root = global;
+    } else if (WEB_WORKER) {
+        root = self;
+    }
+    var COMMON_JS = !root.JS_SHA256_NO_COMMON_JS && typeof module === 'object' && module.exports;
+    var AMD = typeof define === 'function' && define.amd;
+    var ARRAY_BUFFER = !root.JS_SHA256_NO_ARRAY_BUFFER && typeof ArrayBuffer !== 'undefined';
+    var HEX_CHARS = '0123456789abcdef'.split('');
+    var EXTRA = [-2147483648, 8388608, 32768, 128];
+    var SHIFT = [24, 16, 8, 0];
+    var K = [
+        0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
+        0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174,
+        0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc, 0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da,
+        0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7, 0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967,
+        0x27b70a85, 0x2e1b2138, 0x4d2c6dfc, 0x53380d13, 0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85,
+        0xa2bfe8a1, 0xa81a664b, 0xc24b8b70, 0xc76c51a3, 0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070,
+        0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
+        0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2
+    ];
+    var OUTPUT_TYPES = ['hex', 'array', 'digest', 'arrayBuffer'];
+
+    var blocks = [];
+
+    if (root.JS_SHA256_NO_NODE_JS || !Array.isArray) {
+        Array.isArray = function (obj) {
+            return Object.prototype.toString.call(obj) === '[object Array]';
+        };
+    }
+
+    if (ARRAY_BUFFER && (root.JS_SHA256_NO_ARRAY_BUFFER_IS_VIEW || !ArrayBuffer.isView)) {
+        ArrayBuffer.isView = function (obj) {
+            return typeof obj === 'object' && obj.buffer && obj.buffer.constructor === ArrayBuffer;
+        };
+    }
+
+    var createOutputMethod = function (outputType, is224) {
+        return function (message) {
+            return new Sha256(is224, true).update(message)[outputType]();
+        };
+    };
+
+    var createMethod = function (is224) {
+        var method = createOutputMethod('hex', is224);
+        if (NODE_JS) {
+            method = nodeWrap(method, is224);
+        }
+        method.create = function () {
+            return new Sha256(is224);
+        };
+        method.update = function (message) {
+            return method.create().update(message);
+        };
+        for (var i = 0; i < OUTPUT_TYPES.length; ++i) {
+            var type = OUTPUT_TYPES[i];
+            method[type] = createOutputMethod(type, is224);
+        }
+        return method;
+    };
+
+    var nodeWrap = function (method, is224) {
+        var crypto = require('crypto')
+        var Buffer = require('buffer').Buffer;
+        var algorithm = is224 ? 'sha224' : 'sha256';
+        var bufferFrom;
+        if (Buffer.from && !root.JS_SHA256_NO_BUFFER_FROM) {
+            bufferFrom = Buffer.from;
+        } else {
+            bufferFrom = function (message) {
+                return new Buffer(message);
+            };
+        }
+        var nodeMethod = function (message) {
+            if (typeof message === 'string') {
+                return crypto.createHash(algorithm).update(message, 'utf8').digest('hex');
+            } else {
+                if (message === null || message === undefined) {
+                    throw new Error(ERROR);
+                } else if (message.constructor === ArrayBuffer) {
+                    message = new Uint8Array(message);
+                }
+            }
+            if (Array.isArray(message) || ArrayBuffer.isView(message) ||
+                message.constructor === Buffer) {
+                return crypto.createHash(algorithm).update(bufferFrom(message)).digest('hex');
+            } else {
+                return method(message);
+            }
+        };
+        return nodeMethod;
+    };
+
+    var createHmacOutputMethod = function (outputType, is224) {
+        return function (key, message) {
+            return new HmacSha256(key, is224, true).update(message)[outputType]();
+        };
+    };
+
+    var createHmacMethod = function (is224) {
+        var method = createHmacOutputMethod('hex', is224);
+        method.create = function (key) {
+            return new HmacSha256(key, is224);
+        };
+        method.update = function (key, message) {
+            return method.create(key).update(message);
+        };
+        for (var i = 0; i < OUTPUT_TYPES.length; ++i) {
+            var type = OUTPUT_TYPES[i];
+            method[type] = createHmacOutputMethod(type, is224);
+        }
+        return method;
+    };
+
+    function Sha256(is224, sharedMemory) {
+        if (sharedMemory) {
+            blocks[0] = blocks[16] = blocks[1] = blocks[2] = blocks[3] =
+                blocks[4] = blocks[5] = blocks[6] = blocks[7] =
+                    blocks[8] = blocks[9] = blocks[10] = blocks[11] =
+                        blocks[12] = blocks[13] = blocks[14] = blocks[15] = 0;
+            this.blocks = blocks;
+        } else {
+            this.blocks = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        }
+
+        if (is224) {
+            this.h0 = 0xc1059ed8;
+            this.h1 = 0x367cd507;
+            this.h2 = 0x3070dd17;
+            this.h3 = 0xf70e5939;
+            this.h4 = 0xffc00b31;
+            this.h5 = 0x68581511;
+            this.h6 = 0x64f98fa7;
+            this.h7 = 0xbefa4fa4;
+        } else { // 256
+            this.h0 = 0x6a09e667;
+            this.h1 = 0xbb67ae85;
+            this.h2 = 0x3c6ef372;
+            this.h3 = 0xa54ff53a;
+            this.h4 = 0x510e527f;
+            this.h5 = 0x9b05688c;
+            this.h6 = 0x1f83d9ab;
+            this.h7 = 0x5be0cd19;
+        }
+
+        this.block = this.start = this.bytes = this.hBytes = 0;
+        this.finalized = this.hashed = false;
+        this.first = true;
+        this.is224 = is224;
+    }
+
+    Sha256.prototype.update = function (message) {
+        if (this.finalized) {
+            return;
+        }
+        var notString, type = typeof message;
+        if (type !== 'string') {
+            if (type === 'object') {
+                if (message === null) {
+                    throw new Error(ERROR);
+                } else if (ARRAY_BUFFER && message.constructor === ArrayBuffer) {
+                    message = new Uint8Array(message);
+                } else if (!Array.isArray(message)) {
+                    if (!ARRAY_BUFFER || !ArrayBuffer.isView(message)) {
+                        throw new Error(ERROR);
+                    }
+                }
+            } else {
+                throw new Error(ERROR);
+            }
+            notString = true;
+        }
+        var code, index = 0, i, length = message.length, blocks = this.blocks;
+        while (index < length) {
+            if (this.hashed) {
+                this.hashed = false;
+                blocks[0] = this.block;
+                this.block = blocks[16] = blocks[1] = blocks[2] = blocks[3] =
+                    blocks[4] = blocks[5] = blocks[6] = blocks[7] =
+                        blocks[8] = blocks[9] = blocks[10] = blocks[11] =
+                            blocks[12] = blocks[13] = blocks[14] = blocks[15] = 0;
+            }
+
+            if (notString) {
+                for (i = this.start; index < length && i < 64; ++index) {
+                    blocks[i >>> 2] |= message[index] << SHIFT[i++ & 3];
+                }
+            } else {
+                for (i = this.start; index < length && i < 64; ++index) {
+                    code = message.charCodeAt(index);
+                    if (code < 0x80) {
+                        blocks[i >>> 2] |= code << SHIFT[i++ & 3];
+                    } else if (code < 0x800) {
+                        blocks[i >>> 2] |= (0xc0 | (code >>> 6)) << SHIFT[i++ & 3];
+                        blocks[i >>> 2] |= (0x80 | (code & 0x3f)) << SHIFT[i++ & 3];
+                    } else if (code < 0xd800 || code >= 0xe000) {
+                        blocks[i >>> 2] |= (0xe0 | (code >>> 12)) << SHIFT[i++ & 3];
+                        blocks[i >>> 2] |= (0x80 | ((code >>> 6) & 0x3f)) << SHIFT[i++ & 3];
+                        blocks[i >>> 2] |= (0x80 | (code & 0x3f)) << SHIFT[i++ & 3];
+                    } else {
+                        code = 0x10000 + (((code & 0x3ff) << 10) | (message.charCodeAt(++index) & 0x3ff));
+                        blocks[i >>> 2] |= (0xf0 | (code >>> 18)) << SHIFT[i++ & 3];
+                        blocks[i >>> 2] |= (0x80 | ((code >>> 12) & 0x3f)) << SHIFT[i++ & 3];
+                        blocks[i >>> 2] |= (0x80 | ((code >>> 6) & 0x3f)) << SHIFT[i++ & 3];
+                        blocks[i >>> 2] |= (0x80 | (code & 0x3f)) << SHIFT[i++ & 3];
+                    }
+                }
+            }
+
+            this.lastByteIndex = i;
+            this.bytes += i - this.start;
+            if (i >= 64) {
+                this.block = blocks[16];
+                this.start = i - 64;
+                this.hash();
+                this.hashed = true;
+            } else {
+                this.start = i;
+            }
+        }
+        if (this.bytes > 4294967295) {
+            this.hBytes += this.bytes / 4294967296 << 0;
+            this.bytes = this.bytes % 4294967296;
+        }
+        return this;
+    };
+
+    Sha256.prototype.finalize = function () {
+        if (this.finalized) {
+            return;
+        }
+        this.finalized = true;
+        var blocks = this.blocks, i = this.lastByteIndex;
+        blocks[16] = this.block;
+        blocks[i >>> 2] |= EXTRA[i & 3];
+        this.block = blocks[16];
+        if (i >= 56) {
+            if (!this.hashed) {
+                this.hash();
+            }
+            blocks[0] = this.block;
+            blocks[16] = blocks[1] = blocks[2] = blocks[3] =
+                blocks[4] = blocks[5] = blocks[6] = blocks[7] =
+                    blocks[8] = blocks[9] = blocks[10] = blocks[11] =
+                        blocks[12] = blocks[13] = blocks[14] = blocks[15] = 0;
+        }
+        blocks[14] = this.hBytes << 3 | this.bytes >>> 29;
+        blocks[15] = this.bytes << 3;
+        this.hash();
+    };
+
+    Sha256.prototype.hash = function () {
+        var a = this.h0, b = this.h1, c = this.h2, d = this.h3, e = this.h4, f = this.h5, g = this.h6,
+            h = this.h7, blocks = this.blocks, j, s0, s1, maj, t1, t2, ch, ab, da, cd, bc;
+
+        for (j = 16; j < 64; ++j) {
+            // rightrotate
+            t1 = blocks[j - 15];
+            s0 = ((t1 >>> 7) | (t1 << 25)) ^ ((t1 >>> 18) | (t1 << 14)) ^ (t1 >>> 3);
+            t1 = blocks[j - 2];
+            s1 = ((t1 >>> 17) | (t1 << 15)) ^ ((t1 >>> 19) | (t1 << 13)) ^ (t1 >>> 10);
+            blocks[j] = blocks[j - 16] + s0 + blocks[j - 7] + s1 << 0;
+        }
+
+        bc = b & c;
+        for (j = 0; j < 64; j += 4) {
+            if (this.first) {
+                if (this.is224) {
+                    ab = 300032;
+                    t1 = blocks[0] - 1413257819;
+                    h = t1 - 150054599 << 0;
+                    d = t1 + 24177077 << 0;
+                } else {
+                    ab = 704751109;
+                    t1 = blocks[0] - 210244248;
+                    h = t1 - 1521486534 << 0;
+                    d = t1 + 143694565 << 0;
+                }
+                this.first = false;
+            } else {
+                s0 = ((a >>> 2) | (a << 30)) ^ ((a >>> 13) | (a << 19)) ^ ((a >>> 22) | (a << 10));
+                s1 = ((e >>> 6) | (e << 26)) ^ ((e >>> 11) | (e << 21)) ^ ((e >>> 25) | (e << 7));
+                ab = a & b;
+                maj = ab ^ (a & c) ^ bc;
+                ch = (e & f) ^ (~e & g);
+                t1 = h + s1 + ch + K[j] + blocks[j];
+                t2 = s0 + maj;
+                h = d + t1 << 0;
+                d = t1 + t2 << 0;
+            }
+            s0 = ((d >>> 2) | (d << 30)) ^ ((d >>> 13) | (d << 19)) ^ ((d >>> 22) | (d << 10));
+            s1 = ((h >>> 6) | (h << 26)) ^ ((h >>> 11) | (h << 21)) ^ ((h >>> 25) | (h << 7));
+            da = d & a;
+            maj = da ^ (d & b) ^ ab;
+            ch = (h & e) ^ (~h & f);
+            t1 = g + s1 + ch + K[j + 1] + blocks[j + 1];
+            t2 = s0 + maj;
+            g = c + t1 << 0;
+            c = t1 + t2 << 0;
+            s0 = ((c >>> 2) | (c << 30)) ^ ((c >>> 13) | (c << 19)) ^ ((c >>> 22) | (c << 10));
+            s1 = ((g >>> 6) | (g << 26)) ^ ((g >>> 11) | (g << 21)) ^ ((g >>> 25) | (g << 7));
+            cd = c & d;
+            maj = cd ^ (c & a) ^ da;
+            ch = (g & h) ^ (~g & e);
+            t1 = f + s1 + ch + K[j + 2] + blocks[j + 2];
+            t2 = s0 + maj;
+            f = b + t1 << 0;
+            b = t1 + t2 << 0;
+            s0 = ((b >>> 2) | (b << 30)) ^ ((b >>> 13) | (b << 19)) ^ ((b >>> 22) | (b << 10));
+            s1 = ((f >>> 6) | (f << 26)) ^ ((f >>> 11) | (f << 21)) ^ ((f >>> 25) | (f << 7));
+            bc = b & c;
+            maj = bc ^ (b & d) ^ cd;
+            ch = (f & g) ^ (~f & h);
+            t1 = e + s1 + ch + K[j + 3] + blocks[j + 3];
+            t2 = s0 + maj;
+            e = a + t1 << 0;
+            a = t1 + t2 << 0;
+            this.chromeBugWorkAround = true;
+        }
+
+        this.h0 = this.h0 + a << 0;
+        this.h1 = this.h1 + b << 0;
+        this.h2 = this.h2 + c << 0;
+        this.h3 = this.h3 + d << 0;
+        this.h4 = this.h4 + e << 0;
+        this.h5 = this.h5 + f << 0;
+        this.h6 = this.h6 + g << 0;
+        this.h7 = this.h7 + h << 0;
+    };
+
+    Sha256.prototype.hex = function () {
+        this.finalize();
+
+        var h0 = this.h0, h1 = this.h1, h2 = this.h2, h3 = this.h3, h4 = this.h4, h5 = this.h5,
+            h6 = this.h6, h7 = this.h7;
+
+        var hex = HEX_CHARS[(h0 >>> 28) & 0x0F] + HEX_CHARS[(h0 >>> 24) & 0x0F] +
+            HEX_CHARS[(h0 >>> 20) & 0x0F] + HEX_CHARS[(h0 >>> 16) & 0x0F] +
+            HEX_CHARS[(h0 >>> 12) & 0x0F] + HEX_CHARS[(h0 >>> 8) & 0x0F] +
+            HEX_CHARS[(h0 >>> 4) & 0x0F] + HEX_CHARS[h0 & 0x0F] +
+            HEX_CHARS[(h1 >>> 28) & 0x0F] + HEX_CHARS[(h1 >>> 24) & 0x0F] +
+            HEX_CHARS[(h1 >>> 20) & 0x0F] + HEX_CHARS[(h1 >>> 16) & 0x0F] +
+            HEX_CHARS[(h1 >>> 12) & 0x0F] + HEX_CHARS[(h1 >>> 8) & 0x0F] +
+            HEX_CHARS[(h1 >>> 4) & 0x0F] + HEX_CHARS[h1 & 0x0F] +
+            HEX_CHARS[(h2 >>> 28) & 0x0F] + HEX_CHARS[(h2 >>> 24) & 0x0F] +
+            HEX_CHARS[(h2 >>> 20) & 0x0F] + HEX_CHARS[(h2 >>> 16) & 0x0F] +
+            HEX_CHARS[(h2 >>> 12) & 0x0F] + HEX_CHARS[(h2 >>> 8) & 0x0F] +
+            HEX_CHARS[(h2 >>> 4) & 0x0F] + HEX_CHARS[h2 & 0x0F] +
+            HEX_CHARS[(h3 >>> 28) & 0x0F] + HEX_CHARS[(h3 >>> 24) & 0x0F] +
+            HEX_CHARS[(h3 >>> 20) & 0x0F] + HEX_CHARS[(h3 >>> 16) & 0x0F] +
+            HEX_CHARS[(h3 >>> 12) & 0x0F] + HEX_CHARS[(h3 >>> 8) & 0x0F] +
+            HEX_CHARS[(h3 >>> 4) & 0x0F] + HEX_CHARS[h3 & 0x0F] +
+            HEX_CHARS[(h4 >>> 28) & 0x0F] + HEX_CHARS[(h4 >>> 24) & 0x0F] +
+            HEX_CHARS[(h4 >>> 20) & 0x0F] + HEX_CHARS[(h4 >>> 16) & 0x0F] +
+            HEX_CHARS[(h4 >>> 12) & 0x0F] + HEX_CHARS[(h4 >>> 8) & 0x0F] +
+            HEX_CHARS[(h4 >>> 4) & 0x0F] + HEX_CHARS[h4 & 0x0F] +
+            HEX_CHARS[(h5 >>> 28) & 0x0F] + HEX_CHARS[(h5 >>> 24) & 0x0F] +
+            HEX_CHARS[(h5 >>> 20) & 0x0F] + HEX_CHARS[(h5 >>> 16) & 0x0F] +
+            HEX_CHARS[(h5 >>> 12) & 0x0F] + HEX_CHARS[(h5 >>> 8) & 0x0F] +
+            HEX_CHARS[(h5 >>> 4) & 0x0F] + HEX_CHARS[h5 & 0x0F] +
+            HEX_CHARS[(h6 >>> 28) & 0x0F] + HEX_CHARS[(h6 >>> 24) & 0x0F] +
+            HEX_CHARS[(h6 >>> 20) & 0x0F] + HEX_CHARS[(h6 >>> 16) & 0x0F] +
+            HEX_CHARS[(h6 >>> 12) & 0x0F] + HEX_CHARS[(h6 >>> 8) & 0x0F] +
+            HEX_CHARS[(h6 >>> 4) & 0x0F] + HEX_CHARS[h6 & 0x0F];
+        if (!this.is224) {
+            hex += HEX_CHARS[(h7 >>> 28) & 0x0F] + HEX_CHARS[(h7 >>> 24) & 0x0F] +
+                HEX_CHARS[(h7 >>> 20) & 0x0F] + HEX_CHARS[(h7 >>> 16) & 0x0F] +
+                HEX_CHARS[(h7 >>> 12) & 0x0F] + HEX_CHARS[(h7 >>> 8) & 0x0F] +
+                HEX_CHARS[(h7 >>> 4) & 0x0F] + HEX_CHARS[h7 & 0x0F];
+        }
+        return hex;
+    };
+
+    Sha256.prototype.toString = Sha256.prototype.hex;
+
+    Sha256.prototype.digest = function () {
+        this.finalize();
+
+        var h0 = this.h0, h1 = this.h1, h2 = this.h2, h3 = this.h3, h4 = this.h4, h5 = this.h5,
+            h6 = this.h6, h7 = this.h7;
+
+        var arr = [
+            (h0 >>> 24) & 0xFF, (h0 >>> 16) & 0xFF, (h0 >>> 8) & 0xFF, h0 & 0xFF,
+            (h1 >>> 24) & 0xFF, (h1 >>> 16) & 0xFF, (h1 >>> 8) & 0xFF, h1 & 0xFF,
+            (h2 >>> 24) & 0xFF, (h2 >>> 16) & 0xFF, (h2 >>> 8) & 0xFF, h2 & 0xFF,
+            (h3 >>> 24) & 0xFF, (h3 >>> 16) & 0xFF, (h3 >>> 8) & 0xFF, h3 & 0xFF,
+            (h4 >>> 24) & 0xFF, (h4 >>> 16) & 0xFF, (h4 >>> 8) & 0xFF, h4 & 0xFF,
+            (h5 >>> 24) & 0xFF, (h5 >>> 16) & 0xFF, (h5 >>> 8) & 0xFF, h5 & 0xFF,
+            (h6 >>> 24) & 0xFF, (h6 >>> 16) & 0xFF, (h6 >>> 8) & 0xFF, h6 & 0xFF
+        ];
+        if (!this.is224) {
+            arr.push((h7 >>> 24) & 0xFF, (h7 >>> 16) & 0xFF, (h7 >>> 8) & 0xFF, h7 & 0xFF);
+        }
+        return arr;
+    };
+
+    Sha256.prototype.array = Sha256.prototype.digest;
+
+    Sha256.prototype.arrayBuffer = function () {
+        this.finalize();
+
+        var buffer = new ArrayBuffer(this.is224 ? 28 : 32);
+        var dataView = new DataView(buffer);
+        dataView.setUint32(0, this.h0);
+        dataView.setUint32(4, this.h1);
+        dataView.setUint32(8, this.h2);
+        dataView.setUint32(12, this.h3);
+        dataView.setUint32(16, this.h4);
+        dataView.setUint32(20, this.h5);
+        dataView.setUint32(24, this.h6);
+        if (!this.is224) {
+            dataView.setUint32(28, this.h7);
+        }
+        return buffer;
+    };
+
+    function HmacSha256(key, is224, sharedMemory) {
+        var i, type = typeof key;
+        if (type === 'string') {
+            var bytes = [], length = key.length, index = 0, code;
+            for (i = 0; i < length; ++i) {
+                code = key.charCodeAt(i);
+                if (code < 0x80) {
+                    bytes[index++] = code;
+                } else if (code < 0x800) {
+                    bytes[index++] = (0xc0 | (code >>> 6));
+                    bytes[index++] = (0x80 | (code & 0x3f));
+                } else if (code < 0xd800 || code >= 0xe000) {
+                    bytes[index++] = (0xe0 | (code >>> 12));
+                    bytes[index++] = (0x80 | ((code >>> 6) & 0x3f));
+                    bytes[index++] = (0x80 | (code & 0x3f));
+                } else {
+                    code = 0x10000 + (((code & 0x3ff) << 10) | (key.charCodeAt(++i) & 0x3ff));
+                    bytes[index++] = (0xf0 | (code >>> 18));
+                    bytes[index++] = (0x80 | ((code >>> 12) & 0x3f));
+                    bytes[index++] = (0x80 | ((code >>> 6) & 0x3f));
+                    bytes[index++] = (0x80 | (code & 0x3f));
+                }
+            }
+            key = bytes;
+        } else {
+            if (type === 'object') {
+                if (key === null) {
+                    throw new Error(ERROR);
+                } else if (ARRAY_BUFFER && key.constructor === ArrayBuffer) {
+                    key = new Uint8Array(key);
+                } else if (!Array.isArray(key)) {
+                    if (!ARRAY_BUFFER || !ArrayBuffer.isView(key)) {
+                        throw new Error(ERROR);
+                    }
+                }
+            } else {
+                throw new Error(ERROR);
+            }
+        }
+
+        if (key.length > 64) {
+            key = (new Sha256(is224, true)).update(key).array();
+        }
+
+        var oKeyPad = [], iKeyPad = [];
+        for (i = 0; i < 64; ++i) {
+            var b = key[i] || 0;
+            oKeyPad[i] = 0x5c ^ b;
+            iKeyPad[i] = 0x36 ^ b;
+        }
+
+        Sha256.call(this, is224, sharedMemory);
+
+        this.update(iKeyPad);
+        this.oKeyPad = oKeyPad;
+        this.inner = true;
+        this.sharedMemory = sharedMemory;
+    }
+    HmacSha256.prototype = new Sha256();
+
+    HmacSha256.prototype.finalize = function () {
+        Sha256.prototype.finalize.call(this);
+        if (this.inner) {
+            this.inner = false;
+            var innerHash = this.array();
+            Sha256.call(this, this.is224, this.sharedMemory);
+            this.update(this.oKeyPad);
+            this.update(innerHash);
+            Sha256.prototype.finalize.call(this);
+        }
+    };
+
+    var exports = createMethod();
+    exports.sha256 = exports;
+    exports.sha224 = createMethod(true);
+    exports.sha256.hmac = createHmacMethod();
+    exports.sha224.hmac = createHmacMethod(true);
+
+    if (COMMON_JS) {
+        module.exports = exports;
+    } else {
+        root.sha256 = exports.sha256;
+        root.sha224 = exports.sha224;
+        if (AMD) {
+            define(function () {
+                return exports;
+            });
+        }
+    }
+})();
